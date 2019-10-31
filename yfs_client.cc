@@ -12,7 +12,7 @@
 yfs_client::yfs_client(std::string extent_dst, std::string lock_dst)
 {
   ec = new extent_client(extent_dst);
-  lc = new lock_client(lock_dst);
+  lc = new lock_client_cache(lock_dst);
   if (ec->put(1, "") != extent_protocol::OK)
       printf("error init root dir\n"); // XYB: init root dir
 }
@@ -131,7 +131,6 @@ bool yfs_client::issymlink(inum inum, bool lock)
     if (ec->getattr(inum, a) != extent_protocol::OK)
     {
         printf("error getting attr\n");
-        lc->release(inum);
         r = false;
         goto release;
     }
@@ -139,7 +138,6 @@ bool yfs_client::issymlink(inum inum, bool lock)
     if (a.type == extent_protocol::T_SYMLINK)
     {
         printf("issymlink: %lld is a symlink\n", inum);
-        lc->release(inum);
         r = true;
         goto release;
     }
