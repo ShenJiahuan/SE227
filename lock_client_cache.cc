@@ -118,7 +118,7 @@ lock_client_cache::release(lock_protocol::lockid_t lid) {
 
 rlock_protocol::status
 lock_client_cache::revoke_handler(lock_protocol::lockid_t lid, int &) {
-  usleep(1000);
+  usleep(10000);
   pthread_mutex_lock(&mutex);
   if (!revoked[lid]) {
     if (locks[lid].first != FREE) {
