@@ -48,7 +48,7 @@ class block_manager {
 
 // inode layer -----------------------------------------
 
-#define INODE_NUM  1024
+#define INODE_NUM  1048576
 
 // Inodes per block.
 #define IPB           1

@@ -443,6 +443,7 @@ int yfs_client::lookup(inum parent, const char *name, bool &found, inum &ino_out
 
 int yfs_client::lookup(inum parent, const char *name, bool &found, inum &ino_out, bool lock)
 {
+    found = false;
     std::cout << "###lookup###" << std::endl;
     if (lock)
     {
@@ -461,8 +462,6 @@ int yfs_client::lookup(inum parent, const char *name, bool &found, inum &ino_out
         r = IOERR;
         goto release;
     }
-
-    found = false;
 
     readdir(parent, list, false);
     for (std::list<dirent>::iterator iter = list.begin(); iter != list.end(); iter++)
@@ -628,14 +627,13 @@ int yfs_client::write(inum ino, size_t size, off_t off, const char *data,
 
     if (off > (int)buf.length())
     {
-        bytes_written = off - buf.length() + buf1.length();
         buf += std::string(off - buf.length(), '\0');
     }
     else
     {
-        bytes_written = buf1.length();
         buf = buf.substr(0, off);
     }
+    bytes_written = buf1.length();
     buf += buf1;
     buf += suffix;
 

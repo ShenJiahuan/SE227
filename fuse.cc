@@ -196,7 +196,7 @@ void fuseserver_write(fuse_req_t req, fuse_ino_t ino,
                       const char *buf, size_t size, off_t off,
                       struct fuse_file_info *fi) {
 #if 1
-    printf("write, buf: %s, off: %lu, size: %lu\n", buf, off, size);
+    // printf("write, buf: %s, off: %lu, size: %lu\n", buf, off, size);
     // Change the above line to "#if 1", and your code goes here
     int r;
     if ((r = yfs->write(ino, size, off, buf, size)) == yfs_client::OK) {

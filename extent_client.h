@@ -4,12 +4,18 @@
 #define extent_client_h
 
 #include <string>
+#include <map>
 #include "extent_protocol.h"
 #include "extent_server.h"
 
 class extent_client {
  private:
   rpcc *cl;
+  int rclient_port;
+  std::string hostname;
+  std::string cid;
+  std::map<extent_protocol::extentid_t, std::string> cache;
+  std::map<extent_protocol::extentid_t, extent_protocol::attr> meta_cache;
 
  public:
   extent_client(std::string dst);
@@ -21,6 +27,7 @@ class extent_client {
 				                          extent_protocol::attr &a);
   extent_protocol::status put(extent_protocol::extentid_t eid, std::string buf);
   extent_protocol::status remove(extent_protocol::extentid_t eid);
+  rextent_protocol::status invalidate_handler(extent_protocol::extentid_t eid, int &);
 };
 
 #endif 
